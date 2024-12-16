@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function async1(callback) {
+            setTimeout(() => {
+                console.log('Async 1 completed')
+                callback()
+            }, 1000);
+        }
+        function async2(callback) {
+            setTimeout(() => {
+                console.log('Async 2 completed')
+                callback()
+            }, 2000);
+        }
+        function async3(callback) {
+            setTimeout(() => {
+                console.log('Async 3 completed')
+                callback()
+            }, 3000);
+        }
+
+        function callbackManager(callbacks) {
+            function nextAsyncExecuter() {
+                const nextAsyncFunc = callbacks.shift();
+                if (nextAsyncFunc && typeof nextAsyncFunc === "function") {
+                    nextAsyncFunc(nextAsyncExecuter)
+                }
+            }
+            nextAsyncExecuter()
+        }
+
+        callbackManager([async1, async2, async3])
+
+    </script>
+</body>
+
+</html>
