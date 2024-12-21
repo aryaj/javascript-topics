@@ -49,7 +49,7 @@ console.log(about2.apply(user2, ["Song", "Main hoon na"]));
 
 //=========== BIND =========== //
 
-// Bind also works like call only, difference is it does not execute the function, rather it returns a function which can be called later. It will be called later with the reference of this which was passed in bind
+// Bind also works like call, only difference is it does not execute the function, rather it returns a function which can be called later. It will be called later with the reference of this which was passed in bind
 // Arguments will be passed same as passed in call
 // Arguments will not be passed in array
 

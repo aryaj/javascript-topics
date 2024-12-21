@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // Normal function
+        function example() {
+            console.log("Hello World")
+        }
+        example()
+
+        // ========== As a method =============
+        // When function is invoked as a method of object, this refers to the obj it is declared in
+        const obj = {
+            blog: 'bucket',
+            displayBlog: function () {
+                console.log(this.blog);
+            },
+            sum: function (arg1, arg2) {
+                console.log(arg1, arg2)
+            }
+        }
+
+        obj.displayBlog()
+
+        // The context of this is set at the time of invocation , so if property of object is change it will be refect in the method output also
+
+        obj.blog = "MDN";
+        obj.displayBlog()
+
+
+
+        // ========== As a constructor ===============
+        const number = new Number("10");
+        console.log(number);
+
+        // ============= Call apply bind ==============
+
+        function sum(arg1, arg2) {
+            console.log(this.blog, arg1, arg2)
+        }
+
+        sum.call(obj, 5, 10);
+
+        // This of normal function refers to window, so if assigned any property with this in side function it can be accessed outside
+
+        function example3() {
+            this.firstNameInWindow = 'Ajay'
+        }
+
+        example3();
+        console.log(this.firstNameInWindow);
+
+        // If function invoked with strict mode , value of this will be undefined, and it will affect all the inner functions also, this will be undefined 
+        function example4() {
+            "use strict"
+            console.log(this === undefined);
+
+            function inner() {
+                console.log(this === undefined);
+            }
+
+            inner();
+        }
+
+        example4();
+
+        // IFFE (Immediately invoked function expression)
+        // IFFE are invoked as a normal function so value of this depends on the mode either strict or not
+
+        (function example5() {
+            console.log(this === window);
+
+        })();
+
+        (function example6() {
+            "use strict";
+            console.log(this === window); // false
+            console.log(this === undefined) //  true
+
+        })();
+
+        //var firstname = 'Arya';
+        // setTimeout invokes the function as a normal function
+        // in below function obj2.displayName prints firstname of obj object but if passed as a callback to setTimeout then this will refers to window here so displayName will be undefined
+        (function test() {
+            "use strict";
+            let obj2 = {
+                firstname: 'Ajay',
+                displayName: function example6() {
+                    console.log("this", this)
+                    console.log("this", this.firstname)
+                }
+            }
+            //obj2.displayName();
+            setTimeout(obj2.displayName, 1000)
+        })()
+
+        // this of inner function depends on how inner is invoked
+        // if normallu invoked this will be the window here
+        // If its invoked with call and passed this which is here is the object only, it will console obj 
+        let obj3 = {
+            firstname: 'Sanjay',
+            displayName: function () {
+                console.log(this.firstname);
+                function inner() {
+                    console.log("this inner", this)
+                }
+                inner()
+                inner.call(this);
+            }
+
+        }
+
+        obj3.displayName();
+
+        // In below object for inner function this will be the this of nearest environment which is displayName function , here this of displayName is the object itself
+
+        let obj4 = {
+            firstname: 'Vijay',
+            displayName: function () {
+                console.log(this.firstname);
+                const inner = () => {
+                    console.log("this inner", this)
+                }
+                inner()
+            }
+
+        }
+        obj4.displayName()
+
+    </script>
+</body>
+
+</html>

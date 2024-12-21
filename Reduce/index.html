@@ -50,11 +50,14 @@
 
         const asyncSeriesExecuter = function (promises) {
             promises.reduce((acc, curr) => {
-                console.log("acc", acc)
+                return acc.then(() => {
+                    // run the current promise
+                    curr.then((val) => console.log(val))
+                })
             }, Promise.resolve())
         };
 
-        asyncSeriesExecuterk(promises);
+        asyncSeriesExecuter(promises);
 
     </script>
 </body>
